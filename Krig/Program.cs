@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
+using Krig.Control;
+using Krig.Model;
+
+[assembly: InternalsVisibleTo("TestKrig")]
 
 namespace Krig
 {
@@ -6,7 +11,11 @@ namespace Krig
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            
+
+
         }
+
+
     }
 }
