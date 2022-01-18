@@ -257,12 +257,13 @@ namespace Krig.View.Model
             for (int cardPos = 0; cardPos <_openCardImage.Length ; cardPos++){
                 if (cardPos == 21)
                 {
-                    for (int taller = 0; taller < namesGraphics[card.name].Length; taller++)
+                    for (int namePos = 0; namePos < namesGraphics[card.name].Length; namePos++)
                     {
-                        if (taller % 5 == 0)
+                        if (namePos % 6 == 0)
                         {
                             break;
                         }
+
 
                     }
                 }
