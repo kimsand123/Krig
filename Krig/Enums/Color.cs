@@ -3,7 +3,7 @@
     public enum Color
     {
         Spar,
-        Kloer,
+        Klør,
         Hjerter,
         Ruder
     }
