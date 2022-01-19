@@ -10,3 +10,8 @@
 *							VUNDET					*
 *****************************************************
 Tryk Enter for at fortsætte.
+
+Start programmet i VisualStudio.
+tryk på enter for at komme videre
+Hvis du vil spille igen efter endt spil
+	tryk j [ENTER]

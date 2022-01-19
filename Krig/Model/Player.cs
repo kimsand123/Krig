@@ -9,9 +9,15 @@ namespace Krig.Model
         private string _name;
         private bool _human;
         private int _points;
-        private bool _playerWonRound;
         private int _pointsFromRound;
         private Card _cardDrawn;
+        private PlayerDeck _playerDeck;
+
+        internal PlayerDeck playerDeck
+        {
+            get { return _playerDeck; }
+            set { _playerDeck = value; }
+        }
 
         internal Card cardDrawn
         {
@@ -23,12 +29,6 @@ namespace Krig.Model
         {
             get { return _pointsFromRound; }
             set { _pointsFromRound = value; }
-        }
-
-        internal bool playerWonRound
-        {
-            get { return _playerWonRound; }
-            set { _playerWonRound = value; }
         }
 
         internal int playerNumber

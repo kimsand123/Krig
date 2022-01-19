@@ -14,12 +14,12 @@ namespace Krig.DataAccesLayer
             _gameData.dealCards();
         }
 
-        internal int elementsInPlayerDeck1()
+        internal int nrOfElementsInPlayerDeck1()
         {
             return _gameData.player1Deck.cards.Count;
         }
 
-        internal int elementsInPlayerDeck2()
+        internal int nrOfElementsInPlayerDeck2()
         {
             return _gameData.player2Deck.cards.Count;
         }
