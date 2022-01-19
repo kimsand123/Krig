@@ -4,7 +4,7 @@ namespace Krig.Model
 {
     internal class Deck
     {
-        private List<Card> _cards = new();
+        private List<Card> _cards = new List<Card>();
 
         internal List<Card> cards
         {

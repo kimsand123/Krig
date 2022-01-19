@@ -15,7 +15,7 @@ namespace Krig
         static void Main(string[] args)
         {
             Renderer renderer = new();
-            StringBuilder screen = renderer.createGameScreen(10, 5, 20, new Card() {color = Color.Hjerter, name = Names.Konge},
+            StringBuilder screen = renderer.createGameScreen(5, 5, 20, new Card() {color = Color.Spar, name = Names.Konge},
                 new Card() {color = Color.Ruder, name = Names.Knægt}, 2);
             renderer.drawScreen(screen);
         }
