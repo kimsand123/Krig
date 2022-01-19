@@ -1,10 +1,11 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Krig.DataAccesLayer;
 using Krig.Enums;
 using Krig.Model;
 
@@ -14,46 +15,45 @@ namespace Krig.Control
     {
         private PlayerDeck _player1Deck = new();
         private PlayerDeck _player2Deck = new();
-        private Deck _originalDeck = new();
+        private GameDAO _gameDAO = new();
 
         private int _nrOfCards = 0;
 
+        internal DeckCTL(GameDAO gameDao)
+        {
+            _gameDAO = gameDao;
+        }
+
         internal void dealCards()
         {
-            // metode til at uddele kortene til de to playerdecks
-            Card dealtCard = new();
-
             for (int counter = 0; counter < _nrOfCards/2; counter++)
             {
                 _player1Deck.cards.Push(dealCard());
                 _player2Deck.cards.Push(dealCard());
             }
+
+            _gameDAO.player1Deck = _player1Deck;
+            _gameDAO.player2Deck = _player2Deck;
         }
 
         private Card dealCard()
         {
-            int cardNr = randomizer(_originalDeck.cards.Count - 1);
-            int lastCard = _originalDeck.cards.Count - 1;
+            int lastCardNr = _gameDAO.originalDeck.cards.Count - 1;
+            int cardNr = randomizer(lastCardNr);
 
-            Card dealtCard = _originalDeck.cards[cardNr];
-            _originalDeck.cards[cardNr] = _originalDeck.cards[lastCard];
-            _originalDeck.cards.Insert(lastCard, dealtCard);
+            Card dealtCard = _gameDAO.originalDeck.cards[cardNr];
 
-            _originalDeck.cards.RemoveAt(lastCard);
+            _gameDAO.originalDeck.cards[cardNr] = _gameDAO.originalDeck.cards[lastCardNr];
+            _gameDAO.originalDeck.cards.Insert(lastCardNr, dealtCard);
+
+            _gameDAO.originalDeck.cards.RemoveAt(lastCardNr);
 
             return dealtCard;
         }
 
-
-
-       
-
         private int randomizer(int nr)
         {
-            // Random er kun pseudo random. Dette er mere random da den ud over CPU clocken
-            // også bruger data fra andre enheder i computeren.
-
             return RandomNumberGenerator.GetInt32(0, nr);
         }
     }
-}
+}*/

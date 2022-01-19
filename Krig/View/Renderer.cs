@@ -14,16 +14,16 @@ namespace Krig.View
 
         }
 
-        internal StringBuilder createGameScreen(int pointsP1, int pointsP2, int cardsLeft, Card cardP1, Card cardP2, int playerWon)
+        internal StringBuilder createGameScreen(ref Player player1, ref Player player2, int cardsLeft)
         {
             // Screen er 52 * lang
             StringBuilder screen = new();
-            int card1TextLength = cardP1.color.ToString().Length + cardP1.color.ToString().Length;
-            int card2TextLength = cardP2.color.ToString().Length + cardP2.color.ToString().Length;
+            int card1TextLength = player1.cardDrawn.color.ToString().Length + player1.cardDrawn.color.ToString().Length;
+            int card2TextLength = player2.cardDrawn.color.ToString().Length + player2.cardDrawn.color.ToString().Length;
 
             screen.Append("*****************************************************\n");
 
-            if (playerWon == 1)
+            if (player1.playerWonRound)
             {
                 screen.Append("* Kort tilbage: ").Append(cardsLeft).Append(tab(37 - (16 + cardsLeft.ToString().Length))).Append("Vundet").Append(tab(7));
             }
@@ -34,25 +34,36 @@ namespace Krig.View
              }
              screen.Append("*\n");
 
-            screen.Append("* H A L. ").Append(pointsP1).Append(" point").Append(tab(23 - (15 + pointsP1.ToString().Length)))
-                .Append("Spillet kort: ").Append(cardP1.color).Append(" ").Append(cardP1.name)
+            screen.Append("* H A L. ").Append(player1.points).Append(" point").Append(tab(23 - (15 + player1.points.ToString().Length)))
+                .Append("Spillet kort: ").Append(player1.cardDrawn.color).Append(" ").Append(player1.cardDrawn.name)
                 .Append(tab(25 - (15 + card1TextLength))).Append(" *\n");
 
             screen.Append("*                                                   *\n");
             screen.Append("*                                                   *\n");
 
-            screen.Append("* Menneske. ").Append(pointsP2).Append(" point").Append(tab(22 - (17 + pointsP2.ToString().Length)))
-                .Append("Spillet kort: ").Append(cardP2.color).Append(" ").Append(cardP2.name)
+            screen.Append("* Menneske. ").Append(player2.points).Append(" point").Append(tab(22 - (17 + player2.points.ToString().Length)))
+                .Append("Spillet kort: ").Append(player2.cardDrawn.color).Append(" ").Append(player2.cardDrawn.name)
                 .Append(tab(25 - (15 + card2TextLength))).Append(" *\n");
 
 
             return screen;
         }
 
-        internal StringBuilder createWonGameScreen(int points, int player)
+        internal StringBuilder createWonGameScreen(Player player)
         {
             StringBuilder screen = new();
-            screen.Append("Spiller ").Append(player).Append(" vandt med ").Append(points).Append(" point.");
+
+            // Hvis spillernummeret er 3 er kampen endt uafgjort
+            if (player.playerNumber != 3)
+            {
+                screen.Append("Spiller ").Append(player.name).Append(" vandt med ").Append(player.points)
+                    .Append(" point.");
+            }
+            else
+            {
+                screen.Append("Kampen endte uafgjort mellem ").Append(player.name).Append(" med ").Append(player.points)
+                    .Append(" point.");
+            }
             return screen;
         }
 
@@ -61,7 +72,7 @@ namespace Krig.View
             string spaces = "";
             for (int counter = 0; counter <= nrOfSpaces; counter++)
             {
-                spaces = spaces + " ";
+                spaces += " ";
             }
 
             return spaces;

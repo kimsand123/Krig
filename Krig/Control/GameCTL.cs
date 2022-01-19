@@ -3,35 +3,96 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Krig.DataAccesLayer;
 using Krig.Model;
+using Krig.Service;
+using Krig.View;
 
 namespace Krig.Control
 {
     internal class GameCTL
     {
-        private Deck player1Deck = new();
-        private Deck player2Deck = new();
+        private GameDAO _gameDAO;
+        private Renderer _renderer = new();
+
+
+        private bool _gameOver = false;
+
+
         internal GameCTL()
         {
-
+            GameData gameData = new();
+            _gameDAO = new(ref gameData);
         }
 
-        internal int run(Deck deck)
+        internal void run()
         {
-            int status = 0;
-            // Uddel kort
-            uddelKort(deck);
+            Player player1 = new() { human = true, name = "Menneske.", playerNumber = 1, points = 0 };
+            Player player2 = new() { human = false, name = "H A L.", playerNumber = 2, points = 0 };
+            StringBuilder screen = new();
+            int p1WonPoints = 0;
+            int p2WonPoints = 0;
+            while (!_gameOver)
+            {
+                _gameDAO.drawCard(ref player1);
+                _gameDAO.drawCard(ref player2);
+                _gameDAO.decreaseNumberOfCardsLeft();
 
+                if (player1.cardDrawn.name > player2.cardDrawn.name)
+                {
+                    player1.pointsFromRound = 2;
+                    player1.points += 2;
+                }
 
+                if (player2.cardDrawn.name > player1.cardDrawn.name)
+                {
+                    player2.pointsFromRound = 2;
+                    player2.points += 2;
+                }
 
+                if (player1.cardDrawn.name == player1.cardDrawn.name)
+                {
+                    player1.pointsFromRound = 1;
+                    player2.pointsFromRound = 1;
+                    player1.points += 1;
+                    player2.points += 2;
+                }
 
-
-            return status;
+                screen = _renderer.createGameScreen(ref player1, ref player2, _gameDAO.getNumberOfCardsLeft());
+                _renderer.drawScreen(screen);
+                if (_gameDAO.getNumberOfCardsLeft() == 0)
+                {
+                    _gameOver = true;
+                }
+            }
+            determineWinner(player1, player2);
         }
 
-        private void uddelKort(Deck deck)
+        private void determineWinner(Player player1, Player player2)
         {
-            throw new NotImplementedException();
+            StringBuilder screen = new();
+            //Bestem vinder. Hvis det er lige returneres null;
+            if (player1.points > player2.points)
+            {
+                screen = _renderer.createWonGameScreen(player1);
+            }
+
+            if (player2.points > player1.points)
+            {
+                screen = _renderer.createWonGameScreen(player2);
+            }
+
+            if (player2.points == player1.points)
+            {
+                // Hvis de er lige bruges null som parameter.
+                Player emptyPlayer = new()
+                {
+                    human = true, name = player1.name + " & " + player2.name, playerNumber = 1, points = player1.points
+                };
+                screen = _renderer.createWonGameScreen(emptyPlayer);
+            }
+
+            _renderer.drawScreen(screen);
         }
     }
 }

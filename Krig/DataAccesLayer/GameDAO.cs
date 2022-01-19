@@ -5,57 +5,51 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Krig.Model;
+using Krig.Service;
 
 namespace Krig.DataAccesLayer
 {
     internal class GameDAO
     {
-        private Deck _originalDeck = new();
-        private PlayerDeck _player1Deck = new();
-        private PlayerDeck _player2Deck = new();
+        private GameData _gameData;
 
-        internal PlayerDeck player1Deck
+        internal GameDAO(ref GameData gameData)
         {
-            get { return _player1Deck; }
-            set { _player1Deck = value; }
-        }
-
-        internal PlayerDeck player2Deck
-        {
-            get { return _player2Deck; }
-            set { _player2Deck = value; }
-        }
-
-        internal Deck originalDeck
-        {
-            get { return _originalDeck; }
-            set { _originalDeck = value; }
-        }
-
-        internal GameDAO()
-        {
+            _gameData = gameData;
+            _gameData.createOriginalDeck();
+            _gameData.dealCards();
         }
 
         internal int elementsInPlayerDeck1()
         {
-            return _player1Deck.cards.Count;
+            return _gameData.player1Deck.cards.Count;
         }
 
         internal int elementsInPlayerDeck2()
         {
-            return _player2Deck.cards.Count;
+            return _gameData.player2Deck.cards.Count;
         }
 
-        internal Card drawCard(int playerNr)
+        internal int getNumberOfCardsLeft()
         {
-            switch (playerNr)
+            return _gameData.nrOfCardsLeft;
+        }
+
+        internal void decreaseNumberOfCardsLeft()
+        {
+            _gameData.nrOfCardsLeft -= 1;
+        }
+
+        internal void drawCard(ref Player player)
+        {
+            switch (player.playerNumber)
             {
                 case 1:
-                    return player1Deck.cards.Pop();
+                    player.cardDrawn = _gameData.player1Deck.cards.Pop();
+                    break;
                 case 2:
-                    return player2Deck.cards.Pop();
-                default:
-                    return null;
+                    player.cardDrawn = _gameData.player2Deck.cards.Pop();
+                    break;
             }
         }
     }
