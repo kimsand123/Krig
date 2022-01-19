@@ -8,7 +8,7 @@ using Krig.Model;
 
 namespace Krig.DataAccesLayer
 {
-    internal class DeckDAO
+    internal class GameDAO
     {
         private Deck _originalDeck = new();
         private PlayerDeck _player1Deck = new();
@@ -32,7 +32,7 @@ namespace Krig.DataAccesLayer
             set { _originalDeck = value; }
         }
 
-        internal DeckDAO()
+        internal GameDAO()
         {
         }
 

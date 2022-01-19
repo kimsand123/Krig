@@ -27,7 +27,6 @@ namespace Krig.Control
             {
                 _player1Deck.cards.Push(dealCard());
                 _player2Deck.cards.Push(dealCard());
-
             }
         }
 
@@ -45,20 +44,7 @@ namespace Krig.Control
             return dealtCard;
         }
 
-        internal void initialize()
-        {
-            for (Color color = Color.Spar; color <= Color.Ruder; color++)
-            {
-                for (Names name = Names.En; name <= Names.Konge; name++)
-                {
-                    Card card = new();
-                    card.color = color;
-                    card.name = name;
-                    _originalDeck.cards.Add(card);
-                }
-            }
-            _nrOfCards = _originalDeck.cards.Count;
-        }
+
 
        
 
