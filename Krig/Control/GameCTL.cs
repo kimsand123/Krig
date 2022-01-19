@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Krig.DataAccesLayer;
 using Krig.Model;
-using Krig.Service;
+using Krig.Data;
 using Krig.View;
 
 namespace Krig.Control
@@ -27,11 +27,11 @@ namespace Krig.Control
 
         internal void run()
         {
-            Player player1 = new() { human = true, name = "Menneske.", playerNumber = 1, points = 0 };
-            Player player2 = new() { human = false, name = "H A L.", playerNumber = 2, points = 0 };
-            StringBuilder screen = new();
-            int p1WonPoints = 0;
-            int p2WonPoints = 0;
+            Player player1 = new() { human = true, name = "H A L.", playerNumber = 1, points = 0 };
+            Player player2 = new() { human = false, name = "Menneske.", playerNumber = 2, points = 0 };
+            StringBuilder screen;
+            screen = _renderer.startScreen();
+            _renderer.drawScreen(screen);
             while (!_gameOver)
             {
                 _gameDAO.drawCard(ref player1);
@@ -50,12 +50,12 @@ namespace Krig.Control
                     player2.points += 2;
                 }
 
-                if (player1.cardDrawn.name == player1.cardDrawn.name)
+                if (player1.cardDrawn.name == player2.cardDrawn.name)
                 {
                     player1.pointsFromRound = 1;
                     player2.pointsFromRound = 1;
                     player1.points += 1;
-                    player2.points += 2;
+                    player2.points += 1;
                 }
 
                 screen = _renderer.createGameScreen(ref player1, ref player2, _gameDAO.getNumberOfCardsLeft());
@@ -64,6 +64,9 @@ namespace Krig.Control
                 {
                     _gameOver = true;
                 }
+
+                player1.pointsFromRound = 0;
+                player2.pointsFromRound = 0;
             }
             determineWinner(player1, player2);
         }
@@ -87,7 +90,7 @@ namespace Krig.Control
                 // Hvis de er lige bruges null som parameter.
                 Player emptyPlayer = new()
                 {
-                    human = true, name = player1.name + " & " + player2.name, playerNumber = 1, points = player1.points
+                    human = true, name = player1.name + " & " + player2.name, playerNumber = 3, points = player1.points
                 };
                 screen = _renderer.createWonGameScreen(emptyPlayer);
             }

@@ -5,7 +5,7 @@ using Krig.Control;
 using Krig.DataAccesLayer;
 using Krig.Enums;
 using Krig.Model;
-using Krig.Service;
+using Krig.Data;
 using Krig.View;
 
 [assembly: InternalsVisibleTo("TestKrig")]
@@ -16,7 +16,15 @@ namespace Krig
     {
         static void Main(string[] args)
         {
-            new GameCTL().run();
+            Renderer renderer = new();
+            string play = "j";
+            while (play=="j" || play=="J")
+            {
+                new GameCTL().run();
+                Console.Write("Vil du spille igen j/n: ");
+                play = Console.ReadLine();
+            }
+
             /*Renderer renderer = new();
             StringBuilder screen = renderer.createGameScreen(5, 5, 20, new Card() {color = Color.Spar, name = Names.Konge},
                 new Card() {color = Color.Ruder, name = Names.Knægt}, 2);

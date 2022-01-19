@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Krig.Model;
-using Krig.Service;
+﻿using Krig.Model;
+using Krig.Data;
 
 namespace Krig.DataAccesLayer
 {
@@ -37,7 +31,7 @@ namespace Krig.DataAccesLayer
 
         internal void decreaseNumberOfCardsLeft()
         {
-            _gameData.nrOfCardsLeft -= 1;
+            _gameData.nrOfCardsLeft = _gameData.nrOfCardsLeft - 1;
         }
 
         internal void drawCard(ref Player player)

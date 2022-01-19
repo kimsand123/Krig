@@ -2,7 +2,7 @@
 using Krig.Enums;
 using Krig.Model;
 
-namespace Krig.Service
+namespace Krig.Data
 {
     internal class GameData
     {
@@ -43,31 +43,29 @@ namespace Krig.Service
 
         internal void createOriginalDeck()
         {
-            Deck originalDeck = new();
             for (Color color = Color.Spar; color <= Color.Ruder; color++)
             {
-                for (Names name = Names.En; name <= Names.Konge; name++)
+                for (Names name = Names.Es; name <= Names.Konge; name++)
                 {
                     Card card = new();
                     card.color = color;
                     card.name = name;
-                    originalDeck.cards.Add(card);
+                    _originalDeck.cards.Add(card);
                 }
             }
-            _originalDeck = originalDeck;
-            _nrOfCardsLeft = _originalDeck.cards.Count;
+            _nrOfCardsLeft = _originalDeck.cards.Count / 2;
         }
 
         internal void dealCards()
         {
-            for (int counter = 0; counter < _nrOfCardsLeft / 2; counter++)
+            for (int counter = 0; counter < _nrOfCardsLeft; counter++)
             {
-                _player1Deck.cards.Push(dealCard());
-                _player2Deck.cards.Push(dealCard());
+                _player1Deck.cards.Push(dealCardFromOriginalDeck());
+                _player2Deck.cards.Push(dealCardFromOriginalDeck());
             }
         }
 
-        private Card dealCard()
+        private Card dealCardFromOriginalDeck()
         {
             int lastCardNr = _originalDeck.cards.Count - 1;
             int cardNr = randomizer(lastCardNr);

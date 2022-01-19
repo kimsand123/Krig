@@ -23,7 +23,7 @@ namespace Krig.View
 
             screen.Append("*****************************************************\n");
 
-            if (player1.playerWonRound)
+            if (player1.pointsFromRound==2)
             {
                 screen.Append("* Kort tilbage: ").Append(cardsLeft).Append(tab(37 - (16 + cardsLeft.ToString().Length))).Append("Vundet").Append(tab(7));
             }
@@ -67,6 +67,13 @@ namespace Krig.View
             return screen;
         }
 
+        internal StringBuilder startScreen()
+        {
+            StringBuilder screen = new();
+            screen.Append("\n\n\n\n       Velkommen til krig \n\n\n\n");
+            return screen;
+        }
+
         private string tab(int nrOfSpaces)
         {
             string spaces = "";
@@ -74,20 +81,17 @@ namespace Krig.View
             {
                 spaces += " ";
             }
-
             return spaces;
         }
+
+
 
         internal void drawScreen(StringBuilder screen)
         {
             Console.Clear();
             Console.WriteLine(screen);
-            Console.WriteLine("Tryk på Enter for at trække næste kort");
-            Console.Read();
+            Console.WriteLine("Tryk på Enter for at fortsætte");
+            Console.ReadLine();
         }
-
-        
-
-
     }
 }

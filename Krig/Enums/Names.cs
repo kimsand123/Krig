@@ -9,7 +9,7 @@ namespace Krig.Enums
     public enum Names
     {
         Joker,
-        En,
+        Es,
         To,
         Tre,
         Fire,
