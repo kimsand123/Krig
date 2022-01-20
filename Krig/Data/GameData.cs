@@ -41,6 +41,7 @@ namespace Krig.Data
             
         }
 
+        // Skaber et spil kort med 52 kort, 4 kulører med kort af værdi fra Es - Konge.
         internal void createOriginalDeck()
         {
             for (Color color = Color.Spar; color <= Color.Ruder; color++)
@@ -53,9 +54,12 @@ namespace Krig.Data
                     _originalDeck.cards.Add(card);
                 }
             }
+            // sætter antal kort/runder på baggrund af hvor mange kort der er skabt.
             _nrOfCardsLeft = _originalDeck.cards.Count / 2;
         }
 
+        // Fordeler kortene ud på de 2 spilleres kort stack.
+        // Kør loopet antal kort / 2 gange, da der bliver taget 2 kort i hvert loop.
         internal void dealCards()
         {
             for (int counter = 0; counter < _nrOfCardsLeft; counter++)
@@ -65,8 +69,14 @@ namespace Krig.Data
             }
         }
 
+        // kopierer et tilfældigt kort i original Kort bunken, som er af en variabel formindskende størrelse.
+        // kopierer det sidste kort i bunken ind på det valgte korts plads.
+        // fjerner det sidste kort i bunken
+
+
         private Card dealCardFromOriginalDeck()
         {
+            // nr på sidst kort i bunken. Ændrer sig alt efter hvor mange kort der er tilbage i bunken.
             int lastCardNr = _originalDeck.cards.Count - 1;
             int cardNr = randomizer(lastCardNr);
 
@@ -78,16 +88,16 @@ namespace Krig.Data
             return dealtCard;
         }
 
+        // Bruges til at lave et tilfældigt tal mellem 0 og nummeret på sidste kort i bunken.
         private int randomizer(int nr)
         {
             if (nr != 0)
             {
+                // Så tæt på ægte randomisering man kan komme i C#. Normal Random bruger kun CPU clock til at skabe tal
+                // RandomNumberGenerator bruger også andre skiftende parametre fra hardwaren.
                 return RandomNumberGenerator.GetInt32(0, nr);
             }
-
             return 0;
         }
-
-
     }
 }

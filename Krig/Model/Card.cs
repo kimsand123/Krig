@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using Krig.Enums;
+﻿using Krig.Enums;
 
 namespace Krig.Model
 {
     internal class Card
     {
-
+        // _name er via ENUM også dens værdi.
         private Names _name;
         private Color _color;
 

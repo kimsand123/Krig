@@ -7,6 +7,7 @@ namespace Krig.DataAccesLayer
     {
         private GameData _gameData;
 
+        // GameDAO initialiserer data i GameData
         internal GameDAO(ref GameData gameData)
         {
             _gameData = gameData;
@@ -29,11 +30,13 @@ namespace Krig.DataAccesLayer
             return _gameData.nrOfCardsLeft;
         }
 
+        // nedskriver antal kort/runder
         internal void decreaseNumberOfCardsLeft()
         {
             _gameData.nrOfCardsLeft = _gameData.nrOfCardsLeft - 1;
         }
 
+        // trækker kort i den relevante spillers kortstack.
         internal void drawCard(ref Player player)
         {
             switch (player.playerNumber)

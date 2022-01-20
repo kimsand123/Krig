@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Krig.Enums
+﻿namespace Krig.Enums
 {
+    // Joker er med for at Es kan have værdien 1
+    // Navn og værdi hænger sammen derfor kan navnet bruges i numeriske operationer.
     public enum Names
     {
         Joker,

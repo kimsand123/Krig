@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using System.Text;
 using Krig.Control;
-using Krig.DataAccesLayer;
-using Krig.Enums;
 using Krig.Model;
-using Krig.Data;
 using Krig.View;
 
 [assembly: InternalsVisibleTo("TestKrig")]
@@ -18,19 +14,15 @@ namespace Krig
         {
             Renderer renderer = new();
             string play = "j";
+            // Ydre gameloop. Start, stop og fortsæt spil.
             while (play=="j" || play=="J")
             {
-                new GameCTL().run();
+                Player player1 = new() { human = true, name = "H A L.", playerNumber = 1, points = 0 };
+                Player player2 = new() { human = false, name = "Menneske.", playerNumber = 2, points = 0 };
+                new GameCTL().run(player1, player2);
                 Console.Write("Vil du spille igen j/n: ");
                 play = Console.ReadLine();
             }
-
-            /*Renderer renderer = new();
-            StringBuilder screen = renderer.createGameScreen(5, 5, 20, new Card() {color = Color.Spar, name = Names.Konge},
-                new Card() {color = Color.Ruder, name = Names.Knægt}, 2);
-            renderer.drawScreen(screen);*/
         }
-
-
     }
 }

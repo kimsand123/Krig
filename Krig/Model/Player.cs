@@ -1,23 +1,23 @@
-﻿
-using System.Runtime.InteropServices;
-
-namespace Krig.Model
+﻿namespace Krig.Model
 {
     internal class Player
     {
         private int _playerNumber;
         private string _name;
-        private bool _human;
+        private bool _human; // bliver ikke brugt til noget, men kunne være en go attribut hvis det skulle udvides.
         private int _points;
-        private int _pointsFromRound;
-        private Card _cardDrawn;
-        private PlayerDeck _playerDeck;
+        private int _pointsFromRound; // pointsFromRound bruges af Renderer til at vurdere hvor der skal skrives "vundet". Bliver reset mellem hvert korttræk
+        private Card _cardDrawn; // Bliver brugt så Renderer kan vise den korrekte kort tekst.
+        // private PlayerDeck _playerDeck;
 
-        internal PlayerDeck playerDeck
+        // En spiller burde have sin egen playerdeck, men det er ikke lavet sådan.
+        // Til denne lille demo, bliver det ikke lavet om.
+
+        /*internal PlayerDeck playerDeck
         {
             get { return _playerDeck; }
             set { _playerDeck = value; }
-        }
+        }*/
 
         internal Card cardDrawn
         {

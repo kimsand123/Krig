@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using Krig.DataAccesLayer;
 using Krig.Model;
 using Krig.Data;
@@ -14,10 +10,7 @@ namespace Krig.Control
     {
         private GameDAO _gameDAO;
         private Renderer _renderer = new();
-
-
         private bool _gameOver = false;
-
 
         internal GameCTL()
         {
@@ -25,31 +18,39 @@ namespace Krig.Control
             _gameDAO = new(ref gameData);
         }
 
-        internal void run()
+        internal void run(Player player1, Player player2)
         {
-            Player player1 = new() { human = true, name = "H A L.", playerNumber = 1, points = 0 };
-            Player player2 = new() { human = false, name = "Menneske.", playerNumber = 2, points = 0 };
             StringBuilder screen;
+
+            // Vis start skærm.
             screen = _renderer.startScreen();
             _renderer.drawScreen(screen);
+
+
+            // Et gameloop
             while (!_gameOver)
             {
+                // træk kort for begge spillere.
                 _gameDAO.drawCard(ref player1);
                 _gameDAO.drawCard(ref player2);
+                // nedskriv antal kort/runder tilbage
                 _gameDAO.decreaseNumberOfCardsLeft();
 
+                // hvis spiller1 kort > spiller 2 kort, giv point til spiller 1
                 if (player1.cardDrawn.name > player2.cardDrawn.name)
                 {
                     player1.pointsFromRound = 2;
                     player1.points += 2;
                 }
 
+                // hvis spiller2 kort > spiller1 kort, giv point til spiller 2
                 if (player2.cardDrawn.name > player1.cardDrawn.name)
                 {
                     player2.pointsFromRound = 2;
                     player2.points += 2;
                 }
 
+                // Hvis de er lige store, giv point til begge spillere
                 if (player1.cardDrawn.name == player2.cardDrawn.name)
                 {
                     player1.pointsFromRound = 1;
@@ -58,23 +59,30 @@ namespace Krig.Control
                     player2.points += 1;
                 }
 
+                // skab og vis resultatet på via GameScreen.
                 screen = _renderer.createGameScreen(ref player1, ref player2, _gameDAO.getNumberOfCardsLeft());
                 _renderer.drawScreen(screen);
+
+                // Hvis der ikke er flere kort/runder tilbage efter den her kom ud af loopet 
                 if (_gameDAO.getNumberOfCardsLeft() == 0)
                 {
                     _gameOver = true;
                 }
-
+                
+                // nulstil rundepointene, så der kan vises nye næste gang.
                 player1.pointsFromRound = 0;
                 player2.pointsFromRound = 0;
             }
+
+            // Man er ude af loopet når der ikke er flere kort tilbage, og så skal der bestemmes en vinder
             determineWinner(player1, player2);
         }
 
         private void determineWinner(Player player1, Player player2)
         {
             StringBuilder screen = new();
-            //Bestem vinder. Hvis det er lige returneres null;
+
+            //Der bliver lavet en WonGameScreen for den relevante vinder.
             if (player1.points > player2.points)
             {
                 screen = _renderer.createWonGameScreen(player1);
@@ -85,6 +93,8 @@ namespace Krig.Control
                 screen = _renderer.createWonGameScreen(player2);
             }
 
+            // Hvis det blev uafgjort bliver der skabt en midlertidig spiller som indeholder de data der skal til for at 
+            // Renderer kan generere den rigtige vinder skærm.
             if (player2.points == player1.points)
             {
                 // Hvis de er lige bruges null som parameter.
@@ -95,6 +105,7 @@ namespace Krig.Control
                 screen = _renderer.createWonGameScreen(emptyPlayer);
             }
 
+            // vis vinderskærmen.
             _renderer.drawScreen(screen);
         }
     }
